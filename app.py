@@ -3,7 +3,7 @@ from langchain_community.document_loaders import PyPDFLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_community.embeddings import HuggingFaceEmbeddings
 from langchain_community.vectorstores import FAISS
-from langchain.chains import RetrievalQA
+from langchain_classic.chains import RetrievalQA
 from langchain_community.llms import HuggingFacePipeline
 from transformers import pipeline
 
@@ -44,7 +44,7 @@ if uploaded_files:
     retriever = vectorstore.as_retriever(search_kwargs={"k": 3})
 
     pipe = pipeline(
-        "text2text-generation",
+    "text-generation",
         model="google/flan-t5-base",
         max_length=512
     )
