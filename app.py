@@ -44,8 +44,10 @@ if uploaded_files:
 
     pipe = pipeline(
         "text-generation",
-        model="google/flan-t5-base",
-        max_length=512
+        model="gpt2",
+        max_new_tokens=200,
+        do_sample=True,
+        temperature=0.7
     )
 
     llm = HuggingFacePipeline(pipeline=pipe)
