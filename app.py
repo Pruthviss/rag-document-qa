@@ -21,7 +21,6 @@ documents = []
 if uploaded_files:
 
     for uploaded_file in uploaded_files:
-
         with open(uploaded_file.name, "wb") as f:
             f.write(uploaded_file.read())
 
@@ -44,7 +43,7 @@ if uploaded_files:
     retriever = vectorstore.as_retriever(search_kwargs={"k": 3})
 
     pipe = pipeline(
-    "text-generation",
+        "text-generation",
         model="google/flan-t5-base",
         max_length=512
     )
@@ -63,8 +62,19 @@ if uploaded_files:
         with st.spinner("Generating answer..."):
             result = qa(query)
 
+        answer = result["result"]
+
+        clean_markers = [
+            "Helpful Answer:",
+            "Use the following pieces of context",
+            "\nQuestion:"
+        ]
+        for marker in clean_markers:
+            if marker in answer:
+                answer = answer.split(marker)[-1].strip()
+
         st.subheader("Answer:")
-        st.write(result["result"])
+        st.write(answer)
 
         st.subheader("Top Retrieved Chunks:")
         for doc in result["source_documents"]:
